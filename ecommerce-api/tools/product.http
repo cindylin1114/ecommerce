@@ -1,0 +1,50 @@
+@host = http://localhost:8000
+@auth = token: Bearer {{ login.response.body.$.accessToken }}
+
+
+###
+# @name login
+POST {{ host }}/api/auth/login
+Content-Type: application/json
+
+{
+    "username": "admin",
+    "password": "123456"
+}
+
+###
+POST  {{ host }}/api/products
+Content-Type: application/json
+{{auth}}
+
+{
+     "title": "TEST2 SHOES",
+     "desc": "This is a test product",
+     "img": "Test mig",
+     "categories":["kid","girls"],
+     "size": "22.5",
+     "color": "black",
+     "price": 599
+}
+
+###
+DELETE  {{ host }}/api/products/63d9cff6a903a172c0d08de4
+Content-Type: application/json
+{{auth}}
+
+{}
+
+
+###
+GET  {{ host }}/api/products
+Content-Type: application/json
+{{auth}}
+
+{}
+
+###
+GET  {{ host }}/api/products/find/63d767b74c017cf9aec8cf07
+Content-Type: application/json
+{{auth}}
+
+{}

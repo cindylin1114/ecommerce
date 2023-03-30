@@ -1,0 +1,51 @@
+@host = http://localhost:8000
+@auth = token: Bearer {{ login.response.body.$.accessToken }}
+
+
+###
+# @name login
+POST {{ host }}/api/auth/login
+Content-Type: application/json
+
+{
+    "username": "admin",
+    "password": "123456"
+}
+
+###
+GET {{ host }}/api/users
+Content-Type: application/json
+{{auth}}
+
+{}
+
+###
+GET {{ host }}/api/users/find/63cbfe8cfc7015515f49b02d
+Content-Type: application/json
+{{auth}}
+
+{}
+
+###
+PUT  {{ host }}/api/users/63cbfe8cfc7015515f49b02d
+Content-Type: application/json
+{{auth}}
+
+{
+    "username": "kenny",
+    "email": "kenny19990428@gmail.com"
+}
+
+###
+DELETE  {{ host }}/api/users/63d775f58eda5924b5e2ceb9
+Content-Type: application/json
+{{auth}}
+
+{}
+
+###
+GET {{ host }}/api/users/stats
+Content-Type: application/json
+{{auth}}
+
+{}
